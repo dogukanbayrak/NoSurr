@@ -5,8 +5,10 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     [Header("Distance Settings")]
-    public GameObject mainCharacter;
+    [SerializeField] private GameObject mainCharacter;
+    [SerializeField] private float camSpeed;
     Vector3 offset;
+
     void Start()
     {
         offset = transform.position - mainCharacter.transform.position;   // kamera ile ana obje arasýndaki mesafeyi offsete kaydediyor 
@@ -15,6 +17,8 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = mainCharacter.transform.position + offset;  // ana obje ile kamera arasýndaki mesafeyi offseti de ekleyerek sabit tutuyor
+        //transform.position = mainCharacter.transform.position + offset;  // ana obje ile kamera arasýndaki mesafeyi offseti de ekleyerek sabit tutuyor
+
+        transform.position = Vector3.Slerp(transform.position, mainCharacter.transform.position + offset, camSpeed*Time.deltaTime);
     }
 }

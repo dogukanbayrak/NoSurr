@@ -5,38 +5,51 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.UIElements;
 
 public class EnemyController : MonoBehaviour
 {
 
     [SerializeField] private GameObject gameManager;
+
     [SerializeField] private List<GameObject> characterEnemyList = new List<GameObject>();
+    [SerializeField] private int listFixer;
 
-
-    [SerializeField] private GameObject targetObject;
-
-    public GameObject closestEnemy;
+    private NavMeshAgent navMeshAgent;
+    [SerializeField] private float kickPower;
+    [SerializeField] private GameObject closestEnemy;
 
     // Start is called before the first frame update
     void Start()
     {
 
-
+        
         gameManager = GameObject.FindGameObjectWithTag("GameController");
         SetEnemyList();
-        
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        listFixer = gameManager.GetComponent<GameManager>().activePlayerCount;
+
     }
 
     // Update is called once per frame
     void Update()
     {
 
+        if(listFixer != gameManager.GetComponent<GameManager>().activePlayerCount)
+        {
+            SetEnemyList();
+            listFixer = gameManager.GetComponent<GameManager>().activePlayerCount;
+        }
+
         closestEnemy = ClosestEnemy();
+        MoveToTheClosestObject();
     }
 
     void SetEnemyList()
     {
-
+        characterEnemyList.Clear();
         foreach (GameObject x in gameManager.GetComponent<GameManager>().enemyList)
         {
             characterEnemyList.Add(x);
@@ -70,6 +83,48 @@ public class EnemyController : MonoBehaviour
 
         }
         return closestHere;
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            Debug.Log("222");
+            Rigidbody otherRB = collision.gameObject.GetComponent<Rigidbody>();
+            Vector3 dir = (collision.transform.position-gameObject.transform.position).normalized;
+
+            otherRB.AddForce(new Vector3(dir.x,0,dir.z)*kickPower, ForceMode.Impulse);
+        }
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Dead")
+        {
+            Debug.Log("dead");
+            Destroy(gameObject);
+
+            foreach (GameObject x in gameManager.GetComponent<GameManager>().enemyList)
+            {
+                
+                if (x.GetInstanceID() == gameObject.GetInstanceID())
+                {
+                    gameManager.GetComponent<GameManager>().enemyList.Remove(x);
+                }
+            }
+
+            
+
+
+        }
+    }
+
+    void MoveToTheClosestObject()
+    {
+        navMeshAgent.destination = closestEnemy.transform.position;
+        
     }
 }
     
