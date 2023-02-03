@@ -17,10 +17,14 @@ public class UIController : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI activePlayerText;
     [SerializeField] private TextMeshProUGUI timeText;
+    [SerializeField] private TextMeshProUGUI playerScoreText;
+    [SerializeField] private int score;
+
 
 
     void Start()
     {
+        score = 0;
         gameManager = GameObject.FindGameObjectWithTag("GameController");
 
         maxPlayer= gameManager.GetComponent<GameManager>().enemyList.Count;
@@ -34,6 +38,10 @@ public class UIController : MonoBehaviour
         int timeFixer = (int)gameManager.GetComponent<GameManager>().time;  // time float deðerini int yapar
 
         timeText.text = "Time: "+ timeFixer.ToString();  // ekrana süreyi yazdýrýr
+
+        // Ekrana score yazdýrýr
+
+        ScoreSystem();  // score hesaplar
 
     }
 
@@ -55,6 +63,13 @@ public class UIController : MonoBehaviour
         Time.timeScale = 1f;
         pauseScreen.gameObject.SetActive(false);
         pauseButton.gameObject.SetActive(true);
+
+    }
+    // activeplayer sayýsýna göre score sistemi yapýlýyor. Daha detaylý bir skor sistemi istenilirse buradan eklenir
+    void ScoreSystem()
+    {
+        score = (maxPlayer - gameManager.GetComponent<GameManager>().activePlayerCount) * 50;
+        playerScoreText.text = "Score: " + score.ToString();
 
     }
 
