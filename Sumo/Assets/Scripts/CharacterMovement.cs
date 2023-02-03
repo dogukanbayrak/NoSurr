@@ -8,12 +8,12 @@ public class CharacterMovement : MonoBehaviour
 
     [Header("Movement Settings")]
     Rigidbody rb;
-    private CharacterController characterController;
     [SerializeField] private float inputX,inputZ;
-    [SerializeField] private Vector3 movement,velocity;
-    [SerializeField] private float moveSpeed,gravity;
+    [SerializeField] private float moveSpeed;
     [SerializeField] private float kickPower;
-    [SerializeField] private float torkPower;
+
+    [SerializeField] private Joystick joy;
+
 
 
     [Header("Enemy Settings")]
@@ -31,7 +31,7 @@ public class CharacterMovement : MonoBehaviour
         gameManager = GameObject.FindGameObjectWithTag("GameController");
         rb = GetComponent<Rigidbody>();
        // GetEnemyList();
-        characterController = GetComponent<CharacterController>();
+        
 
         
 
@@ -41,102 +41,27 @@ public class CharacterMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Movement();
-        // Movement2();
-        Movement4();
+        
+        Movement();
     }
 
-    private void FixedUpdate()
-    {
-       // Movement3();
-    }
 
 
     void Movement()
     {
-
-        //float rotate = Input.GetAxis("Horizontal");  // dönüþ açýsý hesaplama
-
-
-        //direction = new Vector3(0, 0, Input.GetAxis("Vertical")*speed*Time.deltaTime);   // ileri yön vektörü
-
-        ////rb.MovePosition(rb.position + direction * Time.deltaTime * speed);  // ileri hareket
-
-
-
-        //transform.localPosition += direction;
-
-        //gameObject.transform.localRotation= Quaternion.Euler(new Vector3(0f, rotate * turnSpeed, 0f)); ;  // dönme açýsý
-
-
-        if (characterController.isGrounded)
-        {
-            velocity.y = 0f;
-        }
-        else
-        {
-            velocity.y -= gravity*Time.deltaTime;
-        }
-
-
-        inputX = Input.GetAxis("Horizontal");
-        inputZ= Input.GetAxis("Vertical");
-
-        //forward movement
-        movement = characterController.transform.forward * inputZ;
-
-        //character rotate
-        characterController.transform.Rotate(Vector3.up*inputX*(Time.deltaTime*100f));
-
-        // character movement
-
-        characterController.Move(movement * moveSpeed * Time.deltaTime);
-        characterController.Move(velocity);
-
-
-
-    }
-
-
-    void Movement2()
-    {
-        //rb.angularVelocity = Vector3.zero;
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-
-
-        transform.Rotate(Vector3.up * x * (Time.deltaTime * 100f));
-
-        Vector3 move = new Vector3(0, 0, z) * Time.deltaTime * moveSpeed;
-
-        
-        transform.localPosition += move;
-
-        //rb.MovePosition(transform.localPosition + transform.TransformDirection(move));
-
-
-
-
-    }
-
-    void Movement3()
-    {
-        float h= Input.GetAxis("Horizontal")*Time.deltaTime*50;
-        float v = Input.GetAxis("Horizontal")* Time.deltaTime*50;
-        rb.AddTorque(transform.up * h*torkPower);
-
-        Vector3 move = new Vector3(0, 0, v) * Time.deltaTime * moveSpeed;
-        rb.MovePosition(transform.position + transform.TransformDirection(move));
-
-    }
-
-    void Movement4()
-    {
         float x = Input.GetAxis("Horizontal")*Time.deltaTime* moveSpeed;
         float z = Input.GetAxis("Vertical")*Time.deltaTime* moveSpeed;
-        Vector3 direction = new Vector3(x, 0, z);
-        transform.position += direction;
-        
+
+        float joyHorizantalMove = joy.Horizontal * moveSpeed * Time.deltaTime;
+        float verticalalMove = joy.Vertical * moveSpeed * Time.deltaTime;
+
+        Vector3 joyMovement = new Vector3(joyHorizantalMove, 0, verticalalMove);
+
+        transform.position += joyMovement;
+
+        //Vector3 direction = new Vector3(x, 0, z);
+        //transform.position += direction;
+
     }
 
     void GetEnemyList()
