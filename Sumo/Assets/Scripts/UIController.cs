@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject menuScreen;
     [SerializeField] private GameObject pauseScreen;
     public GameObject endScreen;
+    public GameObject winScreen;
     public GameObject pauseButton;
     [SerializeField] private GameObject gameManager;
     public bool endGameCheck=false;
@@ -65,6 +67,12 @@ public class UIController : MonoBehaviour
         pauseButton.gameObject.SetActive(true);
 
     }
+
+    public void RetryButton()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     // activeplayer sayýsýna göre score sistemi yapýlýyor. Daha detaylý bir skor sistemi istenilirse buradan eklenir
     void ScoreSystem()
     {

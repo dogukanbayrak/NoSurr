@@ -33,11 +33,13 @@ public class GameManager : MonoBehaviour
     {
         activePlayerCount = enemyList.Count;   // Eðer oyuncu ölürse diye kontrol
 
-        if (activePlayerCount ==1 || time<0)  // oyun bitiþi þartlarý
+        if ( time<0)  // oyun bitiþi þartlarý
         {
             endGame();
-
-
+        }
+        else if (activePlayerCount == 1)
+        {
+            winGame();
         }
 
         time -= Time.deltaTime;  // ekrandaki süre deðeri
@@ -63,6 +65,12 @@ public class GameManager : MonoBehaviour
         uIController.GetComponent<UIController>().endScreen.gameObject.SetActive(true);
         uIController.GetComponent<UIController>().pauseButton.gameObject.SetActive(false);
 
-
     }
+    void winGame()
+    {
+        Time.timeScale = 0f;
+        uIController.GetComponent<UIController>().winScreen.gameObject.SetActive(true);
+        uIController.GetComponent<UIController>().pauseButton.gameObject.SetActive(false);
+    }
+
 }
