@@ -7,6 +7,8 @@ Objelerin takibi için navmesh sistemi kullanıldı.
 
 Süre bittiğinde veya son oyuncu ayakta kaldığında oyun bitiyor.
 
+Kısa bir gameplay: https://youtu.be/0ul1xCU02IA
+
 </br>
 
 
