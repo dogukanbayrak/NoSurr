@@ -63,7 +63,7 @@ public class EnemyController : MonoBehaviour
     }
     
 
-
+    // En yakýn rakibi tespit eder
     GameObject ClosestEnemy()
     {
 
@@ -86,19 +86,22 @@ public class EnemyController : MonoBehaviour
     }
 
 
+    // Rakip ile temasa girerse ona kuvvet uygular
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
             Debug.Log("222");
             Rigidbody otherRB = collision.gameObject.GetComponent<Rigidbody>();
-            Vector3 dir = (collision.transform.position-gameObject.transform.position).normalized;
+            Vector3 dir = (collision.transform.position-gameObject.transform.position).normalized;  // kuvvet yönü hesaplama
 
-            otherRB.AddForce(new Vector3(dir.x,0,dir.z)*kickPower, ForceMode.Impulse);
+            otherRB.AddForce(new Vector3(dir.x,0,dir.z)*kickPower, ForceMode.Impulse);  // kuvvet uygulandýðý an
         }
     }
 
-
+    // Eðer harita dýþýna çýkarsa Dead isimli gameobjeye çarpar ve fonksiyon tetiklenir
+    // obje yok edilir ve gamemanager listesinden kendisini çýkartýr
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Dead")
@@ -121,6 +124,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    // navmesh kullanarak en yakýn rakib objesine hareket eder
     void MoveToTheClosestObject()
     {
         navMeshAgent.destination = closestEnemy.transform.position;

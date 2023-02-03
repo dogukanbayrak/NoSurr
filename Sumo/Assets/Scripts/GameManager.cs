@@ -31,18 +31,20 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        activePlayerCount = enemyList.Count;
+        activePlayerCount = enemyList.Count;   // Eðer oyuncu ölürse diye kontrol
 
-        if (activePlayerCount ==1 || time<0)
+        if (activePlayerCount ==1 || time<0)  // oyun bitiþi þartlarý
         {
             endGame();
 
 
         }
 
-        time -= Time.deltaTime;
+        time -= Time.deltaTime;  // ekrandaki süre deðeri
 
     }
+
+    // Tüm enemy tagýna sahip objeleri listede tutar
 
     private void SetEnemyList()
     {
@@ -54,7 +56,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
+    // oyun bitiþ fonksiyonu
     void endGame()
     {
         Time.timeScale = 0f;

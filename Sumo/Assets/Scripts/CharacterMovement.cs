@@ -30,7 +30,7 @@ public class CharacterMovement : MonoBehaviour
     {
         gameManager = GameObject.FindGameObjectWithTag("GameController");
         rb = GetComponent<Rigidbody>();
-       // GetEnemyList();
+       
         
 
         
@@ -49,8 +49,8 @@ public class CharacterMovement : MonoBehaviour
 
     void Movement()
     {
-        float x = Input.GetAxis("Horizontal")*Time.deltaTime* moveSpeed;
-        float z = Input.GetAxis("Vertical")*Time.deltaTime* moveSpeed;
+        float x = Input.GetAxis("Horizontal")*Time.deltaTime* moveSpeed;  // pc için
+        float z = Input.GetAxis("Vertical")*Time.deltaTime* moveSpeed;  // pc için
 
         float joyHorizantalMove = joy.Horizontal * moveSpeed * Time.deltaTime;
         float verticalalMove = joy.Vertical * moveSpeed * Time.deltaTime;
@@ -59,24 +59,9 @@ public class CharacterMovement : MonoBehaviour
 
         transform.position += joyMovement;
 
-        //Vector3 direction = new Vector3(x, 0, z);
+        //Vector3 direction = new Vector3(x, 0, z);  // pc yön vektörü
         //transform.position += direction;
 
-    }
-
-    void GetEnemyList()
-    {
-        
-        foreach (GameObject x in gameManager.GetComponent<GameManager>().enemyList)
-        {
-            charaterEnemyList.Add(x);
-
-            if(x.GetInstanceID() == gameObject.GetInstanceID())
-            {
-                charaterEnemyList.Remove(x);
-            }
-
-        }
     }
 
     private void OnCollisionEnter(Collision collision)

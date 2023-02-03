@@ -31,9 +31,9 @@ public class UIController : MonoBehaviour
     {
         activePlayerText.text = "Players: "+ gameManager.GetComponent<GameManager>().activePlayerCount + " / " +maxPlayer;  // Sol üstteki oyuncu sayýsý
 
-        int timeFixer = (int)gameManager.GetComponent<GameManager>().time;
+        int timeFixer = (int)gameManager.GetComponent<GameManager>().time;  // time float deðerini int yapar
 
-        timeText.text = "Time: "+ timeFixer.ToString();
+        timeText.text = "Time: "+ timeFixer.ToString();  // ekrana süreyi yazdýrýr
 
     }
 

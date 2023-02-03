@@ -17,8 +17,9 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.position = mainCharacter.transform.position + offset;  // ana obje ile kamera arasýndaki mesafeyi offseti de ekleyerek sabit tutuyor
+        
 
         transform.position = Vector3.Slerp(transform.position, mainCharacter.transform.position + offset, camSpeed*Time.deltaTime);
+        // ana obje ile kamera arasýndaki mesafeyi offseti de ekleyerek sabit tutuyor
     }
 }
